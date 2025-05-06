@@ -3,5 +3,5 @@ A modern, role-based web dashboard for managing users, groups, and app access â€
 
 
 # Login
-## username: admin
-## password: adminpass
+username: admin
+password: adminpass
