@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adminbereich</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <!-- Benutzerverwaltung -->
+    <div class="card">
+        <h2>Benutzer hinzufügen</h2>
+        <form method="POST">
+            <input type="hidden" name="action" value="add_user">
+            <input type="text" name="username" placeholder="Benutzername">
+            <input type="password" name="password" placeholder="Passwort">
+            <select name="role">
+                <option value="user">Mitarbeiter</option>
+                <option value="admin">Administrator</option>
+            </select>
+            <input type="submit" value="Benutzer erstellen">
+        </form>
+
+        <h2>Benutzer verwalten</h2>
+        <form method="POST">
+            <input type="hidden" name="action" value="assign_user">
+            <input type="text" name="username" placeholder="Benutzername">
+            <input type="text" name="usergroup" placeholder="Gruppe">
+            <input type="submit" value="Gruppe zuweisen">
+        </form>
+        <form method="POST">
+            <input type="hidden" name="action" value="remove_user_from_group">
+            <input type="text" name="username" placeholder="Benutzername">
+            <input type="submit" value="Aus Gruppe entfernen">
+        </form>
+        <form method="POST">
+            <input type="hidden" name="action" value="delete_user">
+            <input type="text" name="username" placeholder="Benutzername">
+            <input type="submit" value="Benutzer löschen">
+        </form>
+
+        <h2>Benutzerliste</h2>
+        <ul>
+            {% for u in users %}
+                <li>{{ u.username }} ({{ u.role }}) → Gruppe: {{ u.group }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Gruppenverwaltung -->
+    <div class="card">
+        <h2>Gruppe verwalten</h2>
+        <form method="POST">
+            <input type="hidden" name="action" value="add_group">
+            <input type="text" name="groupname" placeholder="Gruppenname">
+            <input type="submit" value="Gruppe hinzufügen">
+        </form>
+        <form method="POST">
+            <input type="hidden" name="action" value="delete_group">
+            <input type="text" name="groupname" placeholder="Gruppenname">
+            <input type="submit" value="Gruppe löschen">
+        </form>
+
+        <h2>App Gruppen-Zuweisung</h2>
+        <form method="POST">
+            <input type="hidden" name="action" value="assign_app">
+            <input type="text" name="group" placeholder="Gruppe">
+            <input type="text" name="app_to_group" placeholder="App">
+            <input type="submit" value="Zuweisen">
+        </form>
+        <form method="POST">
+            <input type="hidden" name="action" value="unassign_app">
+            <input type="text" name="group" placeholder="Gruppe">
+            <input type="text" name="app_to_group" placeholder="App">
+            <input type="submit" value="Entfernen">
+        </form>
+
+        <h2>Gruppenliste</h2>
+        <ul>
+            {% for g in groups %}
+                <li>{{ g.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Appverwaltung -->
+    <div class="card">
+        <h2>App verwalten</h2>
+        <form method="POST">
+            <input type="hidden" name="action" value="add_app">
+            <input type="text" name="appname" placeholder="App-Name">
+            <input type="text" name="appurl" placeholder="App-URL">
+            <input type="submit" value="App hinzufügen">
+        </form>
+        <form method="POST">
+            <input type="hidden" name="action" value="delete_app">
+            <input type="text" name="appname" placeholder="App-Name">
+            <input type="submit" value="App löschen">
+        </form>
+
+        <h2>App-Liste</h2>
+        <ul>
+            {% for a in apps %}
+                <li>{{ a.name }}: {{ a.url }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>App-Zuweisungen</h2>
+        <ul>
+            {% for z in assignments %}
+                <li>{{ z.gruppe_name }} → {{ z.app_name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<a href="/">Zurück zum Dashboard</a>
+</body>
+</html>
